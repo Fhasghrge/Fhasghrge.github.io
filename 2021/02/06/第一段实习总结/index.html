@@ -29,7 +29,49 @@
         <hr>
     </div>
     <div class="post-content">
-        <h3 id="实习总结"><a href="#实习总结" class="headerlink" title="实习总结"></a>实习总结</h3>
+        <h1 id="实习总结"><a href="#实习总结" class="headerlink" title="实习总结"></a>实习总结</h1><blockquote>
+<p>觉得是人生中很重要的阶段，记录以便以后回顾</p>
+</blockquote>
+<h3 id="准备面试阶段"><a href="#准备面试阶段" class="headerlink" title="准备面试阶段"></a>准备面试阶段</h3><p>一直对自己的水平不是很自信，所以一直努力的学呀学，看了很多教程，很多时候早上打开推送一个公众号文章，能一直看到很多标签页。就这样学呀学，后来碰到和学校合作的公司（寻道）希望在工作室找一个实习生（时间大概2020.10），当时还没有实习的意识，和面试官聊了一下，就说我可以过来了。这个时候就突然有实习的紧迫感，了解了一下发现很多大公司都是在11月份开始招实习生，咨询了工作室学长（泽章）的意见，放弃了这次就会，准备冲击大厂，也就是从那时候开始开始看面经，有意识的刷leetcode</p>
+<h3 id="面试"><a href="#面试" class="headerlink" title="面试"></a>面试</h3><p>在实习僧上投递了很多简历，都是石沉大海，后来在学校论坛河畔上加了很多学长学姐找内推，在这个途中认识了兆鑫（给了提供了学习方向上的建议），也因此后来面试了字节</p>
+<p>第一段实习，投了滴滴效率很高，会想一下，面试问的还是很基础<br><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/556042source_id=profile_create_nctrack&amp;channel=-1">https://www.nowcoder.com/discuss/556042source_id=profile_create_nctrack&amp;channel=-1</a></p>
+<p> 很快拿了offer，一面之后加面试官微信，看到面试官是我老乡感觉可能会收到照顾一些，就没有再面试其他公司了，直接就来了滴滴。</p>
+<h3 id="入职干活"><a href="#入职干活" class="headerlink" title="入职干活"></a>入职干活</h3><p>豪哥下楼接我，中午吃饭带我认识同事，给我讲公司的业务流程，以及公司基础平台的使用</p>
+<blockquote>
+<p>第一周干活都是一些调参数的活，或者加一些很小的功能，面试React，进来写的vue，<br>后来接了数据面板的react需求，后天的需求我觉得vue和react各占一般</p>
+</blockquote>
+<h4 id="技术上的感悟"><a href="#技术上的感悟" class="headerlink" title="技术上的感悟"></a>技术上的感悟</h4><blockquote>
+<p>很多时候我都是看同事的代码，借鉴他们风格写代码，一次提cr的时候，组长给我comment，提问我为什么要这么写，把我问愣住了</p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; data &#125; = requestApi(&#123;params&#125;)</span><br><span class="line">  setData(data)</span><br><span class="line">&#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为什么要使用<code>try catch </code>?<br>例如很多请求都封装在了mobx的action中，同事们都这样写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> requestData = <span class="keyword">async</span> (params) =&gt; &#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="keyword">return</span> commonRequest.get(params)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>很多时候都是不加思考的复制同事的代码，而缺少思考</strong></p>
+<p>第一个例子：其实很多时候后台管理系统都需要做**<em>请求状态动画**</em>，而请求接口都不是直接使用axios这样的基础库，而是对axios就行二次封装，对请求接口状态同一改变，在这里一般会对请求接口进行公共层容错处理，很多报错在这里就被cover了，而在请求大拿的数据的地方只需要对业务层，也就是业务层状态errno进行判断</p>
+<p>第二个例子：完全就是理论和实践没有很好结合的例子，在<code>await</code>之后并没有在使用的数据，所以这个用async和await完全是没有必要的</p>
+<p><strong>所以要相信自己，多思考自己的代码，多质疑别人写的对不对</strong></p>
+<blockquote>
+<p>vue和react组件之间通信的方式很不同，父传子都是通过props进行传递，但是子传递父，vue是通过emit暴露事件监听，react就可以直接通过props传递，形式都是通过参数，但是仔细一想，从更加宏观的角度去看，组件都需要通过暴露接口是的其他组件来控制自己</p>
+</blockquote>
+<blockquote>
+<p>移动端的适配方案使用淘系团队的lib-flexible + px2rem/scss计算属性<br> 后期接触一个项目中，以往的适配方案使用的是媒体查询，后去增量新需求的时候，做适配的时候非常麻烦，那么若何从媒体查询向淘系方案迁移呢？ 目前做的事，对lib-flexible原理重新时间，把rem修改成23.4375rem对应100vw，这<code>iphone6</code>   上16px一个rem，对应以往使用的媒体查询计算rem就可以降低到最小的修改成本</p>
+</blockquote>
+<blockquote>
+<p>接触到的几个项目中，状态管理分别使用了vuex， mobx， redux，<br>其中使用的用处也是从小程序端/客户端传入的用户需要使用store全局存储，vuex 项目汇总封装了高阶组件，是的不用媒体都需要mapState mapAction，对于不同页面的store提取也可以使用require.resolve在一个文件中提取, 状态管理的用处在这个较多被用于存放封装的请求api</p>
+</blockquote>
+<p>hooks理念</p>
+<blockquote>
+<p>在了解函数式编程的时候看了很多关于hooks的源码实现，其中不可避免了解的<code>依赖注入 控制反转</code>这样的设计模式，这种设计模式帮助react优雅的处理组件渲染函数的副作用，hooks的实现解决了状态逻辑的复用的问题，其实更重要的是它把属于fiber的处理能力通过依赖注入的形式提供给了组件，这样再来思考redux 中 useSelector ，它就是借助hooks暴露的功能其直接获取store处理的能力，而不用使用高阶组件或者装饰器语法（总的来说就是不需要使用装饰器的模式向组件中注入store）</p>
+</blockquote>
+<p>函数式编程</p>
+<blockquote>
+<p>第一次小组分享，给组内同时分享了学习函数式编程的感悟</p>
+</blockquote>
+<p>。。。。技术方面的还有待补充</p>
+<h3 id="离职"><a href="#离职" class="headerlink" title="离职"></a>离职</h3><p>离职前参加了好几次团聚，感谢mentor照顾，真实感受到其他实习生的拘束，和组员之间相处也越来越融洽，有时还能开几句玩笑。</p>
+<h3 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h3><p>又是感悟，实习真的是一个实践的好机会，那段时间真的感觉自己进步太慢了，很多东西不能理解，进过这一段实习，真实的觉得自己进步了不少，也越来越有方向和节奏了</p>
+
     </div>
 
     
