@@ -26,6 +26,7 @@ a:hover {
   bottom: 20px;
   left: 50%;
   transform: translate(-50%);
+  display: none;
 }
 .clear {
   clear: both;
