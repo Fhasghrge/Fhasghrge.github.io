@@ -6,6 +6,8 @@ body {
   font-family: "Menlo", "Meslo LG", monospace;
   line-height: 1.725;
   text-rendering: geometricPrecision;
+  padding-top: 50px;
+  padding-bottom: 40px;
 }
 a {
   color: #d2d2d2;
@@ -20,6 +22,10 @@ a:hover {
   text-align: center;
   margin-top: 30px;
   color: #ccc;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%);
 }
 .clear {
   clear: both;
