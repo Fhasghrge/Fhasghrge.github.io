@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Shuang Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            Curry
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="Curry"><a href="#Curry" class="headerlink" title="Curry"></a>Curry</h2><blockquote>
+<p>是把接受多个参数的函数变换成接受一个单一参数（最初函数的第一个参数）的函数，并且返回接受余下的参数而且返回结果的新函数的技术。<br>– from wiki</p>
+</blockquote>
+<h3 id="为什么需要Curry？"><a href="#为什么需要Curry？" class="headerlink" title="为什么需要Curry？"></a>为什么需要Curry？</h3><p><strong>理论基础</strong>： 在高中数学中学过lamda演算， 也很可能证明过多参数的函数都可以通过单参数的函数代替；同样在Haskell语法中多参的函数就是单参数的语法糖，同样在其他支持<strong>函数是一等公民</strong>的语言中，都可以使用单参数替换多参数的函数。</p>
+<p><strong>实践意义</strong>：事实上们多参数的函数只是为了我们更加扁平化的定义和调用函数，但是多参数的函数在函数的复用上相对于但参数的函数有些局限性，例如在支持函数是一等公民的语言中，高阶函数对于多参的函数传入的处理相对于单参函数的处理会麻烦很多；</p>
+<p>践行了<code>Point-free</code>的思想， 可以更好应用于point-free的代码风格</p>
+<p>例如 我觉得这单参数可以更好利用在arr.map 、 filter函数中。</p>
+<p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/03/pointfree.html">Point-free是什么？参考阮一峰的博客</a></p>
+<p>curry使得函数具有更加细粒度方便组合；</p>
+<h3 id="实现curry"><a href="#实现curry" class="headerlink" title="实现curry"></a>实现curry</h3><h4 id="经常碰到的面试题就是add函数，add-1-2-、-add-1-2-、add-1-2-3-4"><a href="#经常碰到的面试题就是add函数，add-1-2-、-add-1-2-、add-1-2-3-4" class="headerlink" title="经常碰到的面试题就是add函数，add(1,2)()、 add(1)(2)()、add(1,2)(3,4)()"></a>经常碰到的面试题就是add函数，add(1,2)()、 add(1)(2)()、add(1,2)(3,4)()</h4><p>方法一： 使用function的对象的特性，把出入的参数存对象某个数组属性中，判断函数执行的时候是否没有参数，再选择执行，并清理函数这个属性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curryAdd</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  curryAdd.store = [...arguments, ...(curryAdd.store || [])];</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">arguments</span>.length) &#123;</span><br><span class="line">    <span class="keyword">const</span> temp = [...curryAdd.store];</span><br><span class="line">    curryAdd.store = [];</span><br><span class="line">    <span class="keyword">return</span> temp.reduce(<span class="function">(<span class="params">pre, curr</span>) =&gt;</span> pre + curr);</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> curryAdd;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>方法二： 利用闭包，函数执行之后依然要清理闭包中的变量</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curryAdd</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  curryAdd.store = [...arguments, ...(curryAdd.store || [])];</span><br><span class="line">  <span class="keyword">if</span> (!<span class="built_in">arguments</span>.length) &#123;</span><br><span class="line">    <span class="keyword">const</span> temp = [...curryAdd.store];</span><br><span class="line">    curryAdd.store = [];</span><br><span class="line">    <span class="keyword">return</span> temp.reduce(<span class="function">(<span class="params">pre, curr</span>) =&gt;</span> pre + curr);</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> curryAdd;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印一下结果：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Mres = curryAdd(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)(<span class="number">4</span>,<span class="number">5</span>)(<span class="number">6</span>)()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;----curry1&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(Mres);</span><br><span class="line"><span class="built_in">console</span>.log(curryAdd(<span class="number">1</span>)());</span><br><span class="line"><span class="keyword">const</span> res2 = curryAdd2(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)(<span class="number">4</span>,<span class="number">5</span>)(<span class="number">6</span>)()</span><br><span class="line"><span class="keyword">const</span> res3 = curryAdd2(<span class="number">1</span>)()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;---curry2&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(res2);</span><br><span class="line"><span class="built_in">console</span>.log(res3)</span><br><span class="line"><span class="comment">// ----curry1</span></span><br><span class="line"><span class="comment">// 21</span></span><br><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="comment">// ---curry2</span></span><br><span class="line"><span class="comment">// 21</span></span><br><span class="line"><span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addAll</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b + c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCurry</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> store = [];</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">resFn</span>(<span class="params">...rest</span>) </span>&#123;</span><br><span class="line">    store = [...store, ...rest];</span><br><span class="line">    <span class="keyword">if</span> (store.length === fn.length) &#123;</span><br><span class="line">      <span class="keyword">const</span> temp = [...store]</span><br><span class="line">      store = [];</span><br><span class="line">      <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, temp);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> resFn;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> resFn;</span><br><span class="line">&#125; </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">joinName</span>(<span class="params">firstName, lastName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> firstName + <span class="string">&#x27; &#x27;</span> + lastName</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> currAddAll = myCurry(addAll)</span><br><span class="line"><span class="keyword">const</span> curryJoinName = myCurry(joinName)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;-----my curry&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(currAddAll(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>));</span><br><span class="line"><span class="built_in">console</span>.log(curryJoinName(<span class="string">&#x27;zhang&#x27;</span>, <span class="string">&#x27;shuang&#x27;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(curryJoinName(<span class="string">&#x27;zhang&#x27;</span>)(<span class="string">&#x27;shuang&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<h4 id="如何把一个多参数的函数转换成curry化的函数呢？"><a href="#如何把一个多参数的函数转换成curry化的函数呢？" class="headerlink" title="如何把一个多参数的函数转换成curry化的函数呢？"></a>如何把一个多参数的函数转换成curry化的函数呢？</h4><p>例如： </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCurry</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">addAll</span>(<span class="params">a, b, c</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b + c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">joinName</span>(<span class="params">firstName, lastName</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> firstName + <span class="string">&#x27; &#x27;</span> + lastName</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> currAddAll = myCurry(addAll)</span><br><span class="line"><span class="keyword">const</span> curryJoinName = myCurry(joinName)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;-----my curry&#x27;</span>);</span><br><span class="line"><span class="built_in">console</span>.log(currAddAll(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>));</span><br><span class="line"><span class="built_in">console</span>.log(curryJoinName(<span class="string">&#x27;zhang&#x27;</span>, <span class="string">&#x27;shuang&#x27;</span>));</span><br><span class="line"><span class="built_in">console</span>.log(curryJoinName(<span class="string">&#x27;zhang&#x27;</span>)(<span class="string">&#x27;shuang&#x27;</span>));</span><br><span class="line"><span class="comment">// -----my curry</span></span><br><span class="line"><span class="comment">// 6</span></span><br><span class="line"><span class="comment">// zhang shuang</span></span><br><span class="line"><span class="comment">// zhang shuang</span></span><br></pre></td></tr></table></figure>
+<p>下面实现这个函数：</p>
+<blockquote>
+<p>主义这里依然利用闭包的特性，在函数最终被执行的出口需要reset闭包，否则多次执行会有残余</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCurry</span>(<span class="params">fn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> store = [];</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">resFn</span>(<span class="params">...rest</span>) </span>&#123;</span><br><span class="line">    store = [...store, ...rest];</span><br><span class="line">    <span class="keyword">if</span> (store.length === fn.length) &#123;</span><br><span class="line">      <span class="keyword">const</span> temp = [...store]</span><br><span class="line">      store = [];</span><br><span class="line">      <span class="keyword">return</span> fn.apply(<span class="literal">null</span>, temp);</span><br><span class="line">    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> resFn;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> resFn;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
