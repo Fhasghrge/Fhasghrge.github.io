@@ -36,7 +36,7 @@
 <ul>
 <li><p>前缀函数(prefix funciton) ：<code>-</code> <code>not</code> </p>
 <blockquote>
-<p>感觉很像shell调用函数的方式，而不像在js中使用括号包裹住参数</p>
+<p>感觉很像shell调用函数的方式，而不像在js中需要使用括号包裹住参数</p>
 </blockquote>
 <p>如果前缀函数有两个参数，可以用反引号的形式把前缀函数当成中缀函数来使用：</p>
 <figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">add</span> <span class="number">8</span> <span class="number">9</span> </span><br><span class="line">&lt;!<span class="comment">-- equal --&gt;</span></span><br><span class="line"><span class="number">8</span> `add` <span class="number">9</span></span><br></pre></td></tr></table></figure></li>
@@ -46,10 +46,10 @@
 <p>函数在HS有最高的执行优先级</p>
 <h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><p>hs中函数的定义除了形式上的不同<br>类似这种形式：</p>
 <figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">add</span> a b = a + b</span><br><span class="line"><span class="comment">-- name params = body</span></span><br></pre></td></tr></table></figure>
-<p>而与js不同的是，<code>=</code>号后面必须赋予实际的值，也就是函数必须有返回值，那么在条件判断语句就不能只有<code>if</code>而没有<code>else</code></p>
+<p>而与js不同的是，<code>=</code>号后面必须赋予实际的表达式，也就是函数必须有返回值，那么在条件判断语句就不能只有<code>if</code>而没有<code>else</code></p>
 <p>函数式编程是基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97">lamda演算</a>，故而所有的函数体本质都是表达式<code>expression</code>，而不是向js这类语言中函数体只是 语句<code>statement</code>的集合，这样就能理解为什么函数必须要有返回值</p>
 <p>没有参数的函数通常被称为定义/名字</p>
-<p>在hs中函数名不能以大写字母开头：</p>
+<p>在hs中函数名不能以大写字母开头：因为在hs中使用大写字母开头的单词表示类型，如果函数也使用大写字母，就会产生冲突</p>
 <h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>字符串实际是列表的语法糖</p>
 <p><code>++</code> 用来拼接字符串，但本质是<code>:</code> <strong>Cons运算符</strong>的语法糖，而<code>[1,2,3]</code>实际是<code>1: 2: 3: []</code> 的语法糖</p>
 <figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> : [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
@@ -70,14 +70,14 @@
 <figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[expression| predicates ]</span><br><span class="line">[ x*<span class="number">2</span> | x &lt;- [<span class="number">1.</span><span class="number">.10</span>] ]</span><br></pre></td></tr></table></figure>
 <p>expression 必须要有返回值</p>
 <p>predicate是对expression中的变量进行限制的条件</p>
-<p>可以对predicate中的变量抽离成变量，当作函数的参数，可以对列表的中的数据进行统计分析</p>
+<p>可以对predicate中的变量抽离成函数变量，当作函数的参数，这样可以对列表进行统计分析</p>
 <h2 id="元组tuple"><a href="#元组tuple" class="headerlink" title="元组tuple"></a>元组tuple</h2><blockquote>
 <p>在js中没有这个概念，也不需要这个，元组就是不同类型的有限长度的组合</p>
 </blockquote>
 <p>二元的元组被称为<code>序对pair</code>， 三元的被称为<code>triple</code></p>
 <p>关于元组也有函数集，但是相对于js陌生或者比较库的函数是<code>zip</code>函数，可以通过两个列表生成序列对</p>
 <figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">zip</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] [a,b,c,d,e]</span><br><span class="line"></span><br><span class="line">[(<span class="number">1</span>,a), (<span class="number">2</span>,b), (<span class="number">3</span>,c), (<span class="number">4</span>,d),(<span class="number">5</span>,e)]</span><br></pre></td></tr></table></figure>
-<p>在ramda和rxjs的操作符中都有类似的概念，别称为<strong>拉链函数</strong>，很是形象</p>
+<p>在ramda和rxjs的操作符中都有类似的概念，别称为<strong>拉链函数</strong>，很是形象<br>例如<a target="_blank" rel="noopener" href="https://ramdajs.com/docs/#zip">zip</a> 和 <a target="_blank" rel="noopener" href="https://ramdajs.com/docs/#zipWith">zipWith</a></p>
 
     </div>
 
