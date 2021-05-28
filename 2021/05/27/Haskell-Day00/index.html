@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Shuang Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            Haskell Day00
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="Haskell前言"><a href="#Haskell前言" class="headerlink" title="Haskell前言"></a>Haskell前言</h1><blockquote>
+<p>从js弱类型语言，向着HS强类型且有明显编程范式特点的语言迁移的时候，有很多不适感</p>
+</blockquote>
+<h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><p>在js中有函数和操作符，但是在HS中，我们可以把操作符也当作成函数，可以把各种操作符分为:</p>
+<ul>
+<li><p>前缀函数(prefix funciton) ：<code>-</code> <code>not</code> </p>
+<blockquote>
+<p>感觉很像shell调用函数的方式，而不像在js中使用括号包裹住参数</p>
+</blockquote>
+<p>如果前缀函数有两个参数，可以用反引号的形式把前缀函数当成中缀函数来使用：</p>
+<figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">add</span> <span class="number">8</span> <span class="number">9</span> </span><br><span class="line">&lt;!<span class="comment">-- equal --&gt;</span></span><br><span class="line"><span class="number">8</span> `add` <span class="number">9</span></span><br></pre></td></tr></table></figure></li>
+<li><p>中缀函数(infix function)：<code>-</code> <code>+</code> <code>*</code> </p>
+</li>
+</ul>
+<p>函数在HS有最高的执行优先级</p>
+<h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><p>hs中函数的定义除了形式上的不同<br>类似这种形式：</p>
+<figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">add</span> a b = a + b</span><br><span class="line"><span class="comment">-- name params = body</span></span><br></pre></td></tr></table></figure>
+<p>而与js不同的是，<code>=</code>号后面必须赋予实际的值，也就是函数必须有返回值，那么在条件判断语句就不能只有<code>if</code>而没有<code>else</code></p>
+<p>函数式编程是基于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%CE%9B%E6%BC%94%E7%AE%97">lamda演算</a>，故而所有的函数本质都是表达式<code>expression</code>，而不是函数语句<code>statement</code>的集合，这样就能理解为什么函数必须要有返回值</p>
+<p>没有参数的函数通常被称为定义/名字</p>
+<p>在hs中函数名不能以大写字母开头：</p>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><p>字符串实际是列表的语法糖</p>
+<p><code>++</code> 用来拼接字符串，但本质是<code>:</code> <strong>Cons运算符</strong>的语法糖，而<code>[1,2,3]</code>实际是<code>1: 2: 3: []</code> 的语法糖</p>
+<figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> : [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br></pre></td></tr></table></figure>
+<p><code>:</code>运算符可以把列表项中的一项拼接到列表中</p>
+<blockquote>
+<p>列表中其他api都以函数的形式或者操作符（当然也可以认为是函数）的形式存在，api的功能和js中列表的功能差不多，只是形式上是以单独的函数存在</p>
+</blockquote>
+<h2 id="range-区间"><a href="#range-区间" class="headerlink" title="range 区间"></a>range 区间</h2><blockquote>
+<p>构造列表的方法</p>
+</blockquote>
+<p>可以指定范围和步长的形式，指定一个范围内的递增列表</p>
+<figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="number">1</span>,<span class="number">2.</span><span class="number">.20</span>]</span><br><span class="line">[<span class="number">1</span>,<span class="number">2.</span>.]</span><br></pre></td></tr></table></figure>
+<p>可以指定/不指定上限以得到无限列表，结合hs<strong>惰性</strong>的特点，可以配合<code>take</code> 函数得到部分长度的列表</p>
+<p>除此之外无限区间还可以用<code>repeat</code>、 <code>cycle</code> 函数</p>
+<h2 id="列表推导式"><a href="#列表推导式" class="headerlink" title="列表推导式"></a>列表推导式</h2><blockquote>
+<p>list comprehension 和高中数学的集合推导式很像</p>
+</blockquote>
+<figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[expression| predicates ]</span><br><span class="line">[ x*<span class="number">2</span> | x &lt;- [<span class="number">1.</span><span class="number">.10</span>] ]</span><br></pre></td></tr></table></figure>
+<p>expression 必须要有返回值</p>
+<p>predicate是对expression中的变量进行限制的条件</p>
+<p>可以对predicate中的变量抽离成变量，当作函数的参数，可以对列表的中的数据进行统计分析</p>
+<h2 id="元组tuple"><a href="#元组tuple" class="headerlink" title="元组tuple"></a>元组tuple</h2><blockquote>
+<p>在js中没有这个概念，也不需要这个，元组就是不同类型的有限长度的组合</p>
+</blockquote>
+<p>二元的元组被称为<code>序对pair</code>， 三元的被称为<code>triple</code></p>
+<p>关于元组也有函数集，但是相对于js陌生或者比较库的函数是<code>zip</code>函数，可以通过两个列表生成序列对</p>
+<figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">zip</span> [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>] [a,b,c,d,e]</span><br><span class="line"></span><br><span class="line">[(<span class="number">1</span>,a), (<span class="number">2</span>,b), (<span class="number">3</span>,c), (<span class="number">4</span>,d),(<span class="number">5</span>,e)]</span><br></pre></td></tr></table></figure>
+<p>在ramda和rxjs的操作符中都有类似的概念</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
