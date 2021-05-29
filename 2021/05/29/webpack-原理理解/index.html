@@ -30,7 +30,10 @@
     </div>
     <div class="post-content">
         <h2 id="整体概述"><a href="#整体概述" class="headerlink" title="整体概述"></a>整体概述</h2><p>webpack的所有功能都是通过plugins实现的，把构建过程当作一个生命周期的话，webpack通过 <code>tapable</code> 的<code>发布订阅模式</code>，在生命周期的每个阶段插入钩子函数，<br>这样使得可以通过配置<code>webpack.config.js</code> 通过依赖注入的形式，赋予webpack各个阶段的能力。</p>
-<h2 id="loader怎么实现的？"><a href="#loader怎么实现的？" class="headerlink" title="loader怎么实现的？"></a>loader怎么实现的？</h2><h4 id="css-loader-amp-style-loader干了什么？"><a href="#css-loader-amp-style-loader干了什么？" class="headerlink" title="css-loader &amp; style-loader干了什么？"></a>css-loader &amp; style-loader干了什么？</h4><p>首先style-loader执行，在内部调用了css-loader，css-lodaer对@import、url进行解析，最后以js对象的形式到处，style-lodaer拿到这个对象，通过<code>toString()</code>拿到css<br>字符串，最后通过插入style标签的形式把css注入body；</p>
+<h2 id="loader怎么实现的？"><a href="#loader怎么实现的？" class="headerlink" title="loader怎么实现的？"></a>loader怎么实现的？</h2><blockquote>
+<p>todo</p>
+</blockquote>
+<h4 id="css-loader-amp-style-loader干了什么？"><a href="#css-loader-amp-style-loader干了什么？" class="headerlink" title="css-loader &amp; style-loader干了什么？"></a>css-loader &amp; style-loader干了什么？</h4><p>首先style-loader执行，在内部调用了css-loader，css-lodaer对@import、url进行解析，最后以js对象的形式到处，style-lodaer拿到这个对象，通过<code>toString()</code>拿到css<br>字符串，最后通过插入style标签的形式把css注入body；</p>
 <p>除此之外，还有css-modules的支持、souceMap、外链css的处理</p>
 <h4 id="file-loader-amp-url-loader"><a href="#file-loader-amp-url-loader" class="headerlink" title="file-loader &amp; url-loader"></a>file-loader &amp; url-loader</h4><p>file-loader</p>
 <ul>
@@ -39,13 +42,22 @@
 <li><code>&#39;module.exports = __webpack_public_path__ + &#39;+ JSON.stringify(url) + ‘;’</code> 把原来路径替换成生成的唯一路径</li>
 </ul>
 <p>url-loader 首先获取limit参数，判断文件大小在limit之内，就直接返回文件的base64编码之后的内容，大于limit参数用调用 <code>file-loader</code> ， 故而配置完url-loader<br>就不需要同时配置file-loader</p>
-<h2 id="plugins怎么实现的"><a href="#plugins怎么实现的" class="headerlink" title="plugins怎么实现的"></a>plugins怎么实现的</h2><h2 id="HMR"><a href="#HMR" class="headerlink" title="HMR"></a>HMR</h2><h2 id="如何收集依赖"><a href="#如何收集依赖" class="headerlink" title="如何收集依赖"></a>如何收集依赖</h2><p>解析语法树之后通过arco进行收集</p>
+<h2 id="plugins怎么实现的"><a href="#plugins怎么实现的" class="headerlink" title="plugins怎么实现的"></a>plugins怎么实现的</h2><blockquote>
+<p>todo</p>
+</blockquote>
+<h2 id="HMR"><a href="#HMR" class="headerlink" title="HMR"></a>HMR</h2><blockquote>
+<p>todo</p>
+</blockquote>
+<h2 id="如何收集依赖"><a href="#如何收集依赖" class="headerlink" title="如何收集依赖"></a>如何收集依赖</h2><p>解析语法树之后通过arco进行收集</p>
 <h2 id="tree-shaking"><a href="#tree-shaking" class="headerlink" title="tree-shaking"></a>tree-shaking</h2><p>webpack 做的事情是 unused harmony exports  的标记, 而删除无用的代码是uglify插件完成</p>
 <ul>
 <li>首先进行无用到处分析，并把对应的export删除</li>
 <li>必须是es6模版语法，因为tree-shaking原理就是利用了ES6 Modules静态的特性，如果是CMD这种动态的，webpack没有办法在编译阶段进行分析</li>
 </ul>
-<h2 id="chunks"><a href="#chunks" class="headerlink" title="chunks"></a>chunks</h2>
+<h2 id="chunks"><a href="#chunks" class="headerlink" title="chunks"></a>chunks</h2><blockquote>
+<p>todo </p>
+</blockquote>
+
     </div>
 
     
