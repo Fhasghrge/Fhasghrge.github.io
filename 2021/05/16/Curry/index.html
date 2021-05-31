@@ -34,7 +34,7 @@
 </blockquote>
 <h3 id="为什么需要Curry？"><a href="#为什么需要Curry？" class="headerlink" title="为什么需要Curry？"></a>为什么需要Curry？</h3><p><strong>理论基础</strong>： 在高中数学中学过lamda演算， 也很可能证明过多参数的函数都可以通过单参数的函数代替；同样在Haskell语法中多参的函数就是单参数的语法糖，同样在其他支持<strong>函数是一等公民</strong>的语言中，都可以使用单参数替换多参数的函数。</p>
 <p><strong>实践意义</strong>：事实上们多参数的函数只是为了我们更加扁平化的定义和调用函数，但是多参数的函数在函数的复用上相对于但参数的函数有些局限性，例如在支持函数是一等公民的语言中，高阶函数对于多参的函数传入的处理相对于单参函数的处理会麻烦很多；</p>
-<p>践行了<code>Point-free</code>的思想， 可以更好应用于point-free的代码风格</p>
+<p>践行了<code>Point-free</code>的思想， 可以更好应用于point-free的代码风格， 没有curry化的函数需要手动传入参数，而非 <code>point-free</code> 的函数较难很难应用于函数的组合</p>
 <p>例如 我觉得这单参数可以更好利用在arr.map 、 filter函数中。</p>
 <p><a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/03/pointfree.html">Point-free是什么？参考阮一峰的博客</a></p>
 <p>curry使得函数具有更加细粒度方便组合；</p>
