@@ -30,7 +30,7 @@
     </div>
     <div class="post-content">
         <h1 id="Haskell前言"><a href="#Haskell前言" class="headerlink" title="Haskell前言"></a>Haskell前言</h1><blockquote>
-<p>从js弱类型语言，向着HS强类型且有明显编程范式特点的语言迁移的时候，有很多不适感</p>
+<p>从js弱类型语言，向着HS强类型且有明显编程范式特点的语言迁移的时候，有很多不适感<br>在Haskell这类函数式语言中，重要的式定义问题的和解的描述，而不是解的步骤</p>
 </blockquote>
 <h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><p>在js中有函数和操作符，但是在HS中，我们可以把操作符也当作成函数，可以把各种操作符分为:</p>
 <ul>
@@ -65,7 +65,7 @@
 <p>可以指定/不指定上限以得到无限列表，结合hs<strong>惰性</strong>的特点，可以配合<code>take</code> 函数得到部分长度的列表</p>
 <p>除此之外无限区间还可以用<code>repeat</code>、 <code>cycle</code> 函数</p>
 <h2 id="列表推导式"><a href="#列表推导式" class="headerlink" title="列表推导式"></a>列表推导式</h2><blockquote>
-<p>list comprehension 和高中数学的集合推导式很像</p>
+<p>list comprehension 和高中数学的集合推导式很像， 可以用作根据其他信息生成列表</p>
 </blockquote>
 <figure class="highlight hs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[expression| predicates ]</span><br><span class="line">[ x*<span class="number">2</span> | x &lt;- [<span class="number">1.</span><span class="number">.10</span>] ]</span><br></pre></td></tr></table></figure>
 <p>expression 必须要有返回值</p>
