@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Shuang Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            git原理-理解
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="理解-Git"><a href="#理解-Git" class="headerlink" title="理解 Git"></a>理解 Git</h1><blockquote>
+<p>代码采用的vite 提供的react-ts模版<br>代码地址： <a target="_blank" rel="noopener" href="https://github.com/Fhasghrge/git-deep">https://github.com/Fhasghrge/git-deep</a></p>
+</blockquote>
+<p>之前看网上讲解git原理，都是拿图/树来说，很直观，但是对于我这种，还是觉得很抽象。<br>这次就从<code>.git</code>文件来看git到底做了什么？</p>
+<h2 id="首先看看-git目录结构"><a href="#首先看看-git目录结构" class="headerlink" title="首先看看.git目录结构"></a>首先看看.git目录结构</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.git</span><br><span class="line">├── COMMIT_EDITMSG</span><br><span class="line">├── FETCH_HEAD</span><br><span class="line">├── HEAD</span><br><span class="line">├── config</span><br><span class="line">├── description</span><br><span class="line">├── hooks</span><br><span class="line">├── index</span><br><span class="line">├── info</span><br><span class="line">├── logs</span><br><span class="line">├── objects</span><br><span class="line">└── refs</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-objects"><a href="#git-objects" class="headerlink" title=".git/objects"></a>.git/objects</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">objects</span><br><span class="line">├── 01</span><br><span class="line">│   └── 3e6c54f0e3414d062098e00df484ea20b8c1ce</span><br><span class="line">├── 11</span><br><span class="line">│   └── f02fe2a0061d6e6e1f271b21da95423b448b32</span><br><span class="line">├── 38</span><br><span class="line">│   └── f386110323c3d06a7bb46193bb63261023dee8</span><br><span class="line">├── 57</span><br><span class="line">│   └── e76f41c336d5d3d99af10126c8e87d03fb0a87</span><br><span class="line">├── 5e</span><br><span class="line">│   └── 7342c934806b8680938c3aa72df2b23650f19d</span><br><span class="line">├── 60</span><br><span class="line">│   └── 6a3cf44ec02bf1c481354445f110f547f5cec2</span><br><span class="line">├── 6b</span><br><span class="line">│   └── 60c1042f58d9fabb75485aa3624dddcf633b5c</span><br><span class="line">├── 7e</span><br><span class="line">│   └── 050f362fdb2d76a283a3484b643b43afbbdb47</span><br><span class="line">├── 81</span><br><span class="line">│   └── 86a71e2e870571b0179cb134a5db2a85761426</span><br><span class="line">├── 8d</span><br><span class="line">│   └── a3fde63d9e7d893ca0eb8b85aec5ab43cadb53</span><br><span class="line">├── 98</span><br><span class="line">│   └── 13efd5ca2e5cdf6c346c1ef8fff74c4b614bb7</span><br><span class="line">├── a8</span><br><span class="line">│   └── a9febdd106fd9eee78ad11f07b4f484cf5a760</span><br><span class="line">├── d4</span><br><span class="line">│   └── 51ff16c1010b8dc4285ef4d338028792a0ecd3</span><br><span class="line">├── de</span><br><span class="line">│   └── 4aeddc12bdfe6c668dd57c6b457a659c058914</span><br><span class="line">├── ec</span><br><span class="line">│   └── 2585e8c0bb8188184ed1e0703c4c8f2a8419b0</span><br><span class="line">├── f6</span><br><span class="line">│   └── b94f610f7f2ab083da15ba116f9fceb4a83f68</span><br><span class="line">├── info</span><br><span class="line">└── pack</span><br></pre></td></tr></table></figure>
+<p>经过一次init commit 之后，</p>
+<p>在<code>.git/objects</code>目录下有很多通过rsa算法生成文件的hash值，</p>
+<p>这些可通过<code>git cat-file -t </code> <code>git cat-file -p</code> 查看类型和预览文件，</p>
+<p>这里类型包括：</p>
+<ul>
+<li>blob （文件的diff产生的标识</li>
+<li>tree （目录的对比产生的标识</li>
+<li>commit （commit之后产生的标识，commit中会指向项目目录的tree的标识）</li>
+</ul>
+<h2 id="git-refs"><a href="#git-refs" class="headerlink" title=".git/refs"></a>.git/refs</h2><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">refs</span><br><span class="line">├── heads</span><br><span class="line">│   └── main</span><br><span class="line">├── remotes</span><br><span class="line">│   └── origin</span><br><span class="line">│       └── main</span><br><span class="line">└── tags</span><br></pre></td></tr></table></figure>
+<p>查看 main, remotes/origin/main 存储了什么：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(main) cat refs/heads/main</span><br><span class="line">7e050f362fdb2d76a283a3484b643b43afbbdb47</span><br><span class="line">➜  .git git:(main) cat refs/remotes/origin/main</span><br><span class="line">7e050f362fdb2d76a283a3484b643b43afbbdb47</span><br></pre></td></tr></table></figure>
+<p>对应的我们看一下<code>obejcts</code>文件中，这个hash映射了什么文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(master) git cat-file -t 7e05</span><br><span class="line">commit</span><br><span class="line">➜  .git git:(master) git cat-file -p 7e05</span><br><span class="line">tree a8a9febdd106fd9eee78ad11f07b4f484cf5a760</span><br><span class="line">author Fhasghrge &lt;1969533391@qq.com&gt; 1622699184 +0800</span><br><span class="line">committer Fhasghrge &lt;1969533391@qq.com&gt; 1622699184 +0800</span><br><span class="line"></span><br><span class="line">init</span><br></pre></td></tr></table></figure>
+<p>可以看到，分支就是对某个commit的指针</p>
+<p>如果现在修改了一个文件，会发生什么呢？</p>
+<p>现在修改了src/App.tsx，<code>git add .</code>之后，发现在.git/objects新增了一条记录：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├── ...</span><br><span class="line">├── 6e</span><br><span class="line">│   └── 34a9958a347bb0e1fa79529a566f79c67f3abf</span><br><span class="line">├── ...</span><br></pre></td></tr></table></figure>
+<p>新增了<code>6e34</code>这个记录：</p>
+<p>使用git cat-file -t / -p 查看发现类型为blob， 文件内容是修改之后的内容</p>
+<p>现在用git commit 提交一下，发现</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  objects</span><br><span class="line">├── ...</span><br><span class="line">├── 15</span><br><span class="line">│   └── b06a96f7eb536d75c29503a03eb6586b9913a3</span><br><span class="line">├── 38</span><br><span class="line">│   └── ...</span><br><span class="line">├── 3c</span><br><span class="line">│   └── f5880a57f2e0548280396e53939d7db22ad952</span><br><span class="line">├── 57</span><br><span class="line">│   └── ...</span><br><span class="line">├── 6e (git add 新增的)</span><br><span class="line">│   └── 34a9958a347bb0e1fa79529a566f79c67f3abf</span><br><span class="line">├── 7e</span><br><span class="line">│   └── ...</span><br><span class="line">├── c1</span><br><span class="line">│   └── b74d5c21c71df3c1c4745b71e8f0669ed5b99c</span><br></pre></td></tr></table></figure>
+<p>又新增了<code>15b0</code> &amp; <code>3cf57</code> &amp; <code>c1b6</code> 三个记录，查看一下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(main) git cat-file -t 15b0</span><br><span class="line">tree</span><br><span class="line">➜  .git git:(main) git cat-file -p 15b0</span><br><span class="line">100644 blob 8da3fde63d9e7d893ca0eb8b85aec5ab43cadb53	App.css</span><br><span class="line">100644 blob 6e34a9958a347bb0e1fa79529a566f79c67f3abf	App.tsx</span><br><span class="line">100644 blob de4aeddc12bdfe6c668dd57c6b457a659c058914	favicon.svg</span><br><span class="line">100644 blob ec2585e8c0bb8188184ed1e0703c4c8f2a8419b0	index.css</span><br><span class="line">100644 blob 6b60c1042f58d9fabb75485aa3624dddcf633b5c	logo.svg</span><br><span class="line">100644 blob 606a3cf44ec02bf1c481354445f110f547f5cec2	main.tsx</span><br><span class="line">100644 blob 11f02fe2a0061d6e6e1f271b21da95423b448b32	vite-env.d.ts</span><br><span class="line"></span><br><span class="line">➜  .git git:(main) git cat-file -t 3cf5</span><br><span class="line">commit</span><br><span class="line">➜  .git git:(main) git cat-file -p 3cf5</span><br><span class="line">tree c1b74d5c21c71df3c1c4745b71e8f0669ed5b99c</span><br><span class="line">parent 7e050f362fdb2d76a283a3484b643b43afbbdb47</span><br><span class="line">author Fhasghrge &lt;1969533391@qq.com&gt; 1622702322 +0800</span><br><span class="line">committer Fhasghrge &lt;1969533391@qq.com&gt; 1622702322 +0800</span><br><span class="line"></span><br><span class="line">docs: src/app.tsx</span><br><span class="line"></span><br><span class="line">➜  .git git:(main) git cat-file -t c1b7</span><br><span class="line">tree</span><br><span class="line">➜  .git git:(main) git cat-file -p c1b7</span><br><span class="line">100644 blob d451ff16c1010b8dc4285ef4d338028792a0ecd3	.gitignore</span><br><span class="line">100644 blob 38f386110323c3d06a7bb46193bb63261023dee8	index.html</span><br><span class="line">100644 blob 9813efd5ca2e5cdf6c346c1ef8fff74c4b614bb7	package.json</span><br><span class="line">040000 tree 15b06a96f7eb536d75c29503a03eb6586b9913a3	src</span><br><span class="line">100644 blob 013e6c54f0e3414d062098e00df484ea20b8c1ce	tsconfig.json</span><br><span class="line">100644 blob 5e7342c934806b8680938c3aa72df2b23650f19d	vite.config.ts</span><br><span class="line">100644 blob 57e76f41c336d5d3d99af10126c8e87d03fb0a87	yarn.lock</span><br></pre></td></tr></table></figure>
+<p>会发现， <code>git commit</code>之后，各级目录会 <code>diff</code> 之后在objects中生成记录，</p>
+<p>在上面对应的就是<code>15b0</code> &amp; <code>c1b6</code>, 同时会生成一个commit记录，他的parent指向上一个commit， 它本身指向<code>diff</code>之后生成的最高层级的记录<code>c1b7</code></p>
+<p>git push之前看一下，refs保存的是什么：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(main) cat refs/heads/main</span><br><span class="line">3cf5880a57f2e0548280396e53939d7db22ad952</span><br><span class="line">➜  .git git:(main) cat refs/remotes/origin/main</span><br><span class="line">7e050f362fdb2d76a283a3484b643b43afbbdb47</span><br></pre></td></tr></table></figure>
+<p>可以看到本地仓库在commit之后已经更新了main分支的指向，而远程仓库的指向还没有更新:</p>
+<p>git push之后，在终端最后一样提示了： <code>7e050f3..3cf5880  main -&gt; main</code>,<br>我们查看一下:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(main) cat refs/remotes/origin/main</span><br><span class="line">3cf5880a57f2e0548280396e53939d7db22ad952</span><br></pre></td></tr></table></figure>
+<p>在github上也可以看到<a target="_blank" rel="noopener" href="https://github.com/Fhasghrge/git-deep/commits/main">两次提交的commit</a>对应的hash值是和本地对应的</p>
+<p>从这个我们就能显然的看出来，git diff的原理，和immutable 中的原理是一样的，当底层的叶子（文件）改变时，向上更新父节点，直到最终.git的所在的目录文件，并把这个顶层的diff生成的hash传给当前HEAD指向的分支。</p>
+<p>看一下这个直观的图：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/24769119-bd5d116773f49423.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="immutable"></p>
+<h4 id="如果新增一个branch会发生什么呢？"><a href="#如果新增一个branch会发生什么呢？" class="headerlink" title="如果新增一个branch会发生什么呢？"></a>如果新增一个branch会发生什么呢？</h4><p>首先创建一个<code>testref</code>分支<br>查看ref文件：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">refs</span><br><span class="line">├── heads</span><br><span class="line">│   ├── main</span><br><span class="line">│   └── testref</span><br><span class="line">├── remotes</span><br><span class="line">│   └── origin</span><br><span class="line">│       └── main</span><br><span class="line">└── tags</span><br></pre></td></tr></table></figure>
+<p>在查看testref中保存了什么：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(main) cat refs/heads/testref</span><br><span class="line">3cf5880a57f2e0548280396e53939d7db22ad952</span><br></pre></td></tr></table></figure>
+<p>和main中保存的相同，<br>那么怎么区别，当前的Head指向呢？</p>
+<p>这就要看<code>.git/HEAD</code>文件了：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  .git git:(main) cat HEAD</span><br><span class="line">ref: refs/heads/main</span><br></pre></td></tr></table></figure>
+<p>如果使用checkout切换分支：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  daily-test git:(main) git checkout testref</span><br><span class="line">Switched to branch <span class="string">&#x27;testref&#x27;</span></span><br><span class="line">➜  daily-test git:(testref) cat .git/HEAD</span><br><span class="line">ref: refs/heads/testref</span><br></pre></td></tr></table></figure>
+<p>发现HEAD的指向发生了变化</p>
+<h2 id="git-FETCH-HEAD"><a href="#git-FETCH-HEAD" class="headerlink" title=".git/FETCH_HEAD"></a>.git/FETCH_HEAD</h2><p>当把分支切换到main时：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  daily-test git:(main) cat .git/FETCH_HEAD</span><br><span class="line">3cf5880a57f2e0548280396e53939d7db22ad952		branch <span class="string">&#x27;main&#x27;</span> of https://github.com/Fhasghrge/git-deep</span><br><span class="line">3cf5880a57f2e0548280396e53939d7db22ad952	not-for-merge	branch <span class="string">&#x27;testref&#x27;</span> of https://github.com/Fhasghrge/git-deep</span><br></pre></td></tr></table></figure>
+<p>发现这里保存了从远程仓库更新的最新版本，git fetch 将在这里更新，git merge/rebase也会把这里的分支和本地仓库合并</p>
+<h2 id="git-config"><a href="#git-config" class="headerlink" title=".git/config"></a>.git/config</h2><p>如果在本地配置了用户名和邮箱：<br>例如：<code>git config --local user.name yourname</code><br>就会存储在这个文件中</p>
+<h2 id="git-index"><a href="#git-index" class="headerlink" title=".git/index"></a>.git/index</h2><p>二进制文件保存的暂存区</p>
+<h2 id="git-COMMIT-EDITMSG"><a href="#git-COMMIT-EDITMSG" class="headerlink" title=".git/COMMIT_EDITMSG"></a>.git/COMMIT_EDITMSG</h2><p>存储最后一次提交的commit的message</p>
+<p>如果git commit 而不实用<code>-m</code>就会进入编辑模式，而编辑的就是这个文件，</p>
+<h2 id="git-logs"><a href="#git-logs" class="headerlink" title=".git/logs"></a>.git/logs</h2><p>用来记录操作信息的</p>
+<p>而不是commit信息的</p>
+<p>例如reflog reset都能被记录</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
