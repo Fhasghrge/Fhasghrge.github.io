@@ -70,7 +70,7 @@
 <p>在github上也可以看到<a target="_blank" rel="noopener" href="https://github.com/Fhasghrge/git-deep/commits/main">两次提交的commit</a>对应的hash值是和本地对应的</p>
 <p>从这个我们就能显然的看出来，git diff的原理，和immutable 中的原理是一样的，当底层的叶子（文件）改变时，向上更新父节点，直到最终.git的所在的目录文件，并把这个顶层的diff生成的hash传给当前HEAD指向的分支。</p>
 <p>看一下这个直观的图：</p>
-<p><img src="../images/immutable.jpg" alt="immutable"></p>
+<p><img src="/images/immutable.jpg" alt="immutable"></p>
 <h4 id="如果新增一个branch会发生什么呢？"><a href="#如果新增一个branch会发生什么呢？" class="headerlink" title="如果新增一个branch会发生什么呢？"></a>如果新增一个branch会发生什么呢？</h4><p>首先创建一个<code>testref</code>分支<br>查看ref文件：</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">refs</span><br><span class="line">├── heads</span><br><span class="line">│   ├── main</span><br><span class="line">│   └── testref</span><br><span class="line">├── remotes</span><br><span class="line">│   └── origin</span><br><span class="line">│       └── main</span><br><span class="line">└── tags</span><br></pre></td></tr></table></figure>
 <p>在查看testref中保存了什么：</p>
