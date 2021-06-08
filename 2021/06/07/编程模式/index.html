@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Shuang Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            编程模式
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="js中的编程模式"><a href="#js中的编程模式" class="headerlink" title="js中的编程模式"></a>js中的编程模式</h1><blockquote>
+<p>和语言强相关的实践方案，与<code>设计模式</code>不同的是：设计模式和编程语言的种类无关</p>
+<p>编程模式通常被用来 组织代码、改善性能、模拟JS缺失的特性</p>
+</blockquote>
+<h2 id="行为隔离"><a href="#行为隔离" class="headerlink" title="行为隔离"></a>行为隔离</h2><blockquote>
+<p>行为隔离我理解往往是希望程序员在开发过程中能够达到 <code>关注点分离</code>的目的，主要并不是为了解决系统的性能</p>
+</blockquote>
+<p>在开发中往往将html、css、js隔离，分别负责页面、外观、行为；</p>
+<p>但是在react中，出现了<code>all in js</code>的概念，例如：<code>css-in-module</code>，<code>jsx</code> 等概念，这种感觉不是一个很好的的选择；</p>
+<p>而在vue中，但文件组件做得很好，完美的把页面、外观、逻辑分离开来；<br>在Angular中，会出现<code>split services</code>的概念，将页面的外观和页面的逻辑分离开来；<br><strong>这样是不是说明react做得不好呢？</strong><br>  我觉得react可能的目标不在于此，react本身只关注于从视图的渲染，react本身的灵活性给予了开发者更多的选择，但是如果在没有技术大牛的团队中，像类似这种规范化的东西就很难在团队内部形成统一，在这种情况在，vue在工程化方面似乎是更好的选择。并且在react也可以实现<code>split service</code> 但是好像用的不多，我也只是看过，并没有深入实践过，不知道原因在哪。</p>
+<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2><blockquote>
+<p>为了减少命名冲突</p>
+</blockquote>
+<p>无论是在浏览器环境还是在node环境，较大的工程型文件都会出现明明冲突的问题，但是现代的解决方案都是用了命名空间这个概念：<br>  例如在浏览器环境中，使用webpack进行打包时就会使用到<code>webpack.exports</code>；<br>  或者在node环境中也会用到<code>module（exports， module, __dirname,...)</code>注入此类的方法构造一个命名空间避免冲突</p>
+<h2 id="初始化分支"><a href="#初始化分支" class="headerlink" title="初始化分支"></a>初始化分支</h2><blockquote>
+<p>为了适应多场景，提高容错率</p>
+</blockquote>
+<p>例如跨端框架，会根据不同的环境生成不同的代码；</p>
+<h2 id="配置对象"><a href="#配置对象" class="headerlink" title="配置对象"></a>配置对象</h2><blockquote>
+<p>当函数的参数较多时，可以使用对象的当时代替参数</p>
+</blockquote>
+<p>在react的fp组件中，就是用了props对象代替了参数；</p>
+<h2 id="特权函数-amp-私有函数的公有化"><a href="#特权函数-amp-私有函数的公有化" class="headerlink" title="特权函数 &amp; 私有函数的公有化"></a>特权函数 &amp; 私有函数的公有化</h2><blockquote>
+<p>用于暴露对象中不希望被直接访问的私有对象</p>
+</blockquote>
+<p>防止 私有属性或者方法被修改的原因是： 因为这些属性或者方法的修改可能会影响到其他属性，所以通过特权函数做了一层“代理”,隔离对私有属性的修改。</p>
+<h2 id="即时函数"><a href="#即时函数" class="headerlink" title="即时函数"></a>即时函数</h2><blockquote>
+<p>又名立即执行函数</p>
+</blockquote>
+<p>隔离所有的其他代码的影响，通常用于做一些初始化的任务</p>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><blockquote>
+<p>帮助管理代码片段和库</p>
+</blockquote>
+<p>模块模式包含了</p>
+<ul>
+<li><p>命名空间</p>
+</li>
+<li><p>即时函数</p>
+</li>
+<li><p>私有属性和方法</p>
+</li>
+<li><p>作为返回值的对象</p>
+<h2 id="链式调用"><a href="#链式调用" class="headerlink" title="链式调用"></a>链式调用</h2><blockquote>
+<p>就是构造了一个数据解构，方便进行操作数据</p>
+</blockquote>
+</li>
+</ul>
+<p>链式调用比较常见，可以看一下在函数式编程中，链式调用的替代方案：</p>
+<p>js也是支持函数式编程，在函数式编程中，<code>数据要和行为分离</code>， 自然也就不能出现链式调用的模式，</p>
+<h4 id="在ramda中也是实现了数据和函数进行分离："><a href="#在ramda中也是实现了数据和函数进行分离：" class="headerlink" title="在ramda中也是实现了数据和函数进行分离："></a>在ramda中也是实现了数据和函数进行分离：</h4><p>首先我们看一段链式调用的代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> data = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;001&quot;</span>,</span><br><span class="line">    sex: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;002&quot;</span>,</span><br><span class="line">    sex: <span class="string">&quot;female&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;003&quot;</span>,</span><br><span class="line">    sex: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">data.filter(<span class="function"><span class="params">d</span> =&gt;</span> d.male === <span class="string">&#x27;male&#x27;</span>).map(<span class="function"><span class="params">d</span> =&gt;</span> d.name)</span><br></pre></td></tr></table></figure>
+<p>这里的问题就是数据data和处理数据的行为高度耦合了，很难去复用这个<code>行为</code> （这里的行为全部解释称函数），下面我们看Ramda如何处理这个行为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> R = <span class="built_in">require</span>(<span class="string">&quot;ramda&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> getMaleName = R.compose(</span><br><span class="line">  R.map(<span class="function">(<span class="params">d</span>) =&gt;</span> d.name),</span><br><span class="line">  R.filter(<span class="function">(<span class="params">d</span>) =&gt;</span> d.sex === <span class="string">&quot;male&quot;</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> data = [</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;001&quot;</span>,</span><br><span class="line">    sex: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;002&quot;</span>,</span><br><span class="line">    sex: <span class="string">&quot;female&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    name: <span class="string">&quot;003&quot;</span>,</span><br><span class="line">    sex: <span class="string">&quot;male&quot;</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">getMaleName(data)</span><br></pre></td></tr></table></figure>
+<h2 id="参考函数式编程"><a href="#参考函数式编程" class="headerlink" title="参考函数式编程"></a>参考函数式编程</h2><p>如果参考函数式编程中的编程模式，<br>会发现很多新的模式可以参考</p>
+<ul>
+<li>immutable 无变量</li>
+<li>curry</li>
+<li>递归代替循环 + 尾递归优化</li>
+<li>函数组合</li>
+<li>惰性求值</li>
+</ul>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
