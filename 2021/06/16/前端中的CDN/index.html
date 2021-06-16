@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Shuang Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            前端中的CDN
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h1 id="前端性能"><a href="#前端性能" class="headerlink" title="前端性能"></a>前端性能</h1><blockquote>
+<p>前端部署的项目在有很多用户量之后需要考虑性能问题，解决这些问题有很多方法，大致分为 <strong>传输的文件本身</strong>和 <strong>传输的渠道</strong> 两个角度</p>
+</blockquote>
+<h2 id="传输的文件本身"><a href="#传输的文件本身" class="headerlink" title="传输的文件本身"></a>传输的文件本身</h2><ul>
+<li>压缩代码体积<ul>
+<li>压缩代码本身</li>
+<li>动静分离（读写分离）<ul>
+<li>动态文件例如数据库、Web程序可以通过云服务器ECS进行存储</li>
+<li>静态文件通过云存储系统OSS存储<ul>
+<li>一般HTML文件不设置缓存，因为在CDN中，静态资源文件都会设置很长的缓存时间，如果html也设置很长缓存，用户就不能更新最新的功能，此外静态资源文件修改重新部署是用过<strong>非覆盖式不是</strong> 的方式部署，主要问题就是解决更新这一个小的时间段内，用户页面出现错乱的情况</li>
+<li>浏览器对同一个域名的并发请求是有限制的，故而静态资源文件需要分散到不同的CDN上去（或者使用懒加载？intersectionObserver监听当前元素是否进入窗口）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>强缓存和协商缓存<ul>
+<li>强缓存<br>进行资源请求时，会判断<code>response headers</code>是否命中强缓存，如果命中，直接从本地读取缓存，不会向服务器发送请求<ul>
+<li>Expires 第一次请求返回的过期时间</li>
+<li>Cache-Control  使用max-age设置设置缓存的生命周期</li>
+</ul>
+</li>
+<li>协商缓存<br>当强缓存没有命中时，会发送请求到服务端，判断协商缓存是否命中，如果命中，服务器将请求返回，不会返回资源，告诉浏览器从本地读取缓存。如何不命中，服务器直接返回资源<ul>
+<li>Last-Modifed 资源最后更新的时间</li>
+<li>ETag： 资源唯一标识，资源更新了会修改ETag </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="传输的渠道"><a href="#传输的渠道" class="headerlink" title="传输的渠道"></a>传输的渠道</h2><h3 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h3><p>  CDN内容分发网络，注意这是一个很多服务器组成的系统，而这个<strong>网络</strong>至少包含了一个DNS服务器和几台缓存服务器；</p>
+<p>  当用户第一次访问这个网络的时候，DNS不会通过本地缓存的ip而是通过DNS服务器进行解析，DNS服务器通过<strong>负载均衡设备</strong> 查找到最适合的缓存服务器的ip返回给用户</p>
+<h5 id="什么时候用CDN？"><a href="#什么时候用CDN？" class="headerlink" title="什么时候用CDN？"></a>什么时候用CDN？</h5><ol>
+<li>当用户覆盖的区域很广，单一的服务器触发部分用户的时间会耗费在网络传输上</li>
+<li>当需要考虑<code>FCP</code>用户体验问题，将一些静态资源文件分离出来，减少用户首次加载页面的传输速度</li>
+<li>此外，通过CDN还可以分散风险，CDN这种分布式存储技术可以避免数据丢失和单点故障带来的影响</li>
+</ol>
+<h5 id="负载均衡器如何查找适合的服务器？"><a href="#负载均衡器如何查找适合的服务器？" class="headerlink" title="负载均衡器如何查找适合的服务器？"></a>负载均衡器如何查找适合的服务器？</h5><p>负载均衡器会考虑距离请求的用户的ip较近的服务器，还会考虑服务器是否有当前用户的请求内容，考虑服务器的负载情况，服务器目前的是否还响应</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
