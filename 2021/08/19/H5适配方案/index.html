@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>
+        Shuang Blog
+    </title>
+    
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body id="bodyx">
+    <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            H5适配方案
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="为什么需要适配移动端？"><a href="#为什么需要适配移动端？" class="headerlink" title="为什么需要适配移动端？"></a>为什么需要适配移动端？</h2><p>移动端设备分辨率千差万别，无论是物理像素还是视口像素（device pixel ratio），都不一样，不能使用px对所有的移动设备进行样式上的适配</p>
+<h2 id="适配指的是哪些内容？"><a href="#适配指的是哪些内容？" class="headerlink" title="适配指的是哪些内容？"></a>适配指的是哪些内容？</h2><p>一般适配的内容包括的边距，宽度，大小，以及字体，间距； 但根据业务场景，某些内容较多的页面可能不需要对字体大小进行适配</p>
+<h2 id="手淘适配方案（lib-flexible-px2rem）"><a href="#手淘适配方案（lib-flexible-px2rem）" class="headerlink" title="手淘适配方案（lib-flexible + px2rem）"></a>手淘适配方案（lib-flexible + px2rem）</h2><ol>
+<li><code>lib-flexible</code> 计算设备视口宽度，取宽度的1/10当作1rem，设置html上的font-size为视口宽度的1/10实现</li>
+<li>px2rem 实现了px向rem的编译时转换，例如在px2rem的remUnit设置75表示75px最终被转换成一个rem</li>
+</ol>
+<p>最终所有的设备宽度都是750px，编写的一套代码就可运行在各个分辨率的设备；</p>
+<p>如今vw以及在各个浏览器中实现，可以通过vw的方案代替rem动态计算的方案</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是手淘或者vw方案，都是通过在不同的环境上构建一层<strong>兼容层</strong>，提供一套兼容性的解决方案，适合外观模式</p>
+
+    </div>
+
+    
+</div>
+    <div class="footer" id="footer">
+    <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+        <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+            <input type="checkbox" name="switch" id="update_style">
+            <span class="el-switch-style"></span>
+        </label>
+<!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+    </p>
+</div>
+<input type="hidden" id="web_style" value="black">
+<input type="hidden" id="valine_appid" value="CmCti21ooOOIzFOhEyFkFvR0-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="FqiyUqbg7McKN2eG0MCewupf">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+.v * {
+    color: #698fca;
+}
+
+.v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+}
+
+.v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+}
+
+.v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+}
+
+.v a {
+    color: #8696b1;
+}
+
+.v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+}
+</style>
+</body>
+
+</html>
