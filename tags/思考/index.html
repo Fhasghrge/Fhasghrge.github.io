@@ -20,29 +20,45 @@
 <meta name="generator" content="Hexo 5.3.0"></head>
 
 <body id="bodyx">
-    <div class="hd posts">
-    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
-    <div class="post-title">
-        <p>
-            H5适配方案
+    <div class="hd logodiv">
+    <!-- <img src="/img/logo.jpg" class="logopng"> -->
+        <p class="logot"><span class="logo_1">&lt;</span><span class="logo_2">/</span><span class="logo_3">#</span>
+            杂记 <span class="logo_3">#</span><span class="logo_2">/</span><span
+                    class="logo_1">&gt;</span>
         </p>
-        <hr>
-    </div>
-    <div class="post-content">
-        <h2 id="为什么需要适配移动端？"><a href="#为什么需要适配移动端？" class="headerlink" title="为什么需要适配移动端？"></a>为什么需要适配移动端？</h2><p>移动端设备分辨率千差万别，无论是物理像素还是视口像素（device pixel ratio），都不一样，不能使用px对所有的移动设备进行样式上的适配</p>
-<h2 id="适配指的是哪些内容？"><a href="#适配指的是哪些内容？" class="headerlink" title="适配指的是哪些内容？"></a>适配指的是哪些内容？</h2><p>一般适配的内容包括的边距，宽度，大小，以及字体，间距； 但根据业务场景，某些内容较多的页面可能不需要对字体大小进行适配</p>
-<h2 id="手淘适配方案（lib-flexible-px2rem）"><a href="#手淘适配方案（lib-flexible-px2rem）" class="headerlink" title="手淘适配方案（lib-flexible + px2rem）"></a>手淘适配方案（lib-flexible + px2rem）</h2><ol>
-<li><code>lib-flexible</code> 计算设备视口宽度，取宽度的1/10当作1rem，设置html上的font-size为视口宽度的1/10实现</li>
-<li>px2rem 实现了px向rem的编译时转换，例如在px2rem的remUnit设置75表示75px最终被转换成一个rem</li>
-</ol>
-<p>最终所有的设备宽度都是750px，编写的一套代码就可运行在各个分辨率的设备；</p>
-<p>如今vw以及在各个浏览器中实现，可以通过vw的方案代替rem动态计算的方案，使用<code>postcss-px-to-viewport</code>完成从px到vw单位转换</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>无论是手淘或者vw方案，都是通过在不同的环境上构建一层<strong>兼容层</strong>，提供一套兼容性的解决方案，适合外观模式</p>
-
-    </div>
-
-    
 </div>
+<div class="hd">
+    <ol class="breadcrumb">
+        
+            <li><a class="ba" target="_blank" rel="noopener" href="https://github.com/Fhasghrge">Github</a></li>
+        
+    </ol>
+    <hr class="breadcrumbhr">
+</div>
+    <div class="hd">
+        
+            
+                
+                    
+                        <div class="titlex">
+                            <p><span class="jing">#</span>
+                                2021
+                            </p>
+                        </div>
+                        
+                            
+                                <a class="flink" href="/2021/12/01/Promise-all%E5%BC%95%E8%B5%B7%E7%9A%84%E6%80%9D%E8%80%83-2/index/">
+                                    <div class="list">
+                                        <div class="postname">
+                                            一段代码引起的对Promise.all思考
+                                        </div>
+                                        <div class="posttime">
+                                            十二月 1日
+                                        </div>
+                                    </div>
+                                </a>
+                                
+    </div>
     <div class="footer" id="footer">
     <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink" target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
         <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
